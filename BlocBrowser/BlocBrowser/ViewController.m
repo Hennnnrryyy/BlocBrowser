@@ -109,16 +109,23 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
     
-    NSString *URLString = textField.text;
+    NSMutableString *URLString = [textField.text mutableCopy]; // So we can change it if we need to
     
     NSURL *URL = [NSURL URLWithString:URLString];
+
+    if([URLString containsString:@" "]){ // If text has spaces
+        NSMutableString *stringForQuery = [URLString mutableCopy];
+        NSRange rangeOfWholeString = [URLString rangeOfString:URLString];
+        [stringForQuery replaceOccurrencesOfString:@" " withString:@"+" options:0 range:rangeOfWholeString]; // Replace spaces with '+' in the entire string
+        URLString = [NSMutableString stringWithFormat: @"google.com/search?q=%@", stringForQuery]; // Format the original string
+    }
     
     if (!URL.scheme) {
         // The user didn't type http: or https:
         URL = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@", URLString]];
     }
     
-    if (URL) {
+   if (URL) {
         NSURLRequest *request = [NSURLRequest requestWithURL:URL];
         [self.webView loadRequest:request];
     }
