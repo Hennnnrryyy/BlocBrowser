@@ -64,6 +64,8 @@
     }
     
     self.view = mainView;
+    
+    [self welcomeUser];
 }
 
 
@@ -150,6 +152,15 @@
         [self presentViewController:alert animated:YES completion:nil];
     }
     [self updateButtonsAndTitle];
+}
+
+-(void) welcomeUser{
+    UIAlertController *welcomeAlert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Hello", @"Greeting") message: NSLocalizedString(@"Have fun browsing!", @"Have fun browsing!") preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *welcomeAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Go", nil)
+                                                       style:UIAlertActionStyleCancel handler:nil];
+    [welcomeAlert addAction:welcomeAction];
+    [self presentViewController:welcomeAlert animated:YES completion:nil];
 }
 
 - (void) addButtonTargets {
