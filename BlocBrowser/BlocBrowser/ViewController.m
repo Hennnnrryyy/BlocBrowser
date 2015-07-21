@@ -192,5 +192,19 @@
     }
 }
 
+-(void) floatingToolbar:(AwesomeFloatingToolbar *)toolbar didPinchWithScale:(CGFloat)scale{
+    NSLog(@"Scale is ------  %f",scale);
+    
+    CGPoint startingPoint = toolbar.frame.origin;
+    CGPoint newPoint = CGPointMake(startingPoint.x, startingPoint.y);
+    
+    CGRect potentialNewFrame = CGRectMake(newPoint.x, newPoint.y, CGRectGetWidth(toolbar.frame) / scale, CGRectGetHeight(toolbar.frame) / scale);
+    
+    NSLog(@"New height, %f", CGRectGetHeight(toolbar.frame) / scale);
+    if (CGRectContainsRect(self.view.bounds, potentialNewFrame)) {
+        toolbar.frame = potentialNewFrame;
+        NSLog(@"Frame updated");
+    }
+}
 
 @end
