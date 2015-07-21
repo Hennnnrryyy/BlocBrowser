@@ -165,7 +165,6 @@
     }
 }
 
-
 #pragma mark - Button Enabling
 
 - (void) setEnabled:(BOOL)enabled forButtonWithTitle:(NSString *)title {
@@ -177,5 +176,6 @@
         label.alpha = enabled ? 1.0 : 0.25;
     }
 }
+
 
 @end

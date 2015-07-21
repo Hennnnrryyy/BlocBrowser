@@ -26,7 +26,7 @@
 
 @implementation ViewController
 
- #pragma mark - UIViewController
+#pragma mark - UIViewController
 
 - (void)loadView {
     UIView *mainView = [UIView new];
@@ -42,7 +42,7 @@
     self.textField.placeholder = NSLocalizedString(@"Website URL", @"Placeholder text for web browser URL field");
     self.textField.backgroundColor = [UIColor colorWithWhite:220/255.0f alpha:1];
     self.textField.delegate = self;
-
+    
     self.awesomeToolbar = [[AwesomeFloatingToolbar alloc] initWithFourTitles:@[kWebBrowserBackString, kWebBrowserForwardString, kWebBrowserStopString, kWebBrowserRefreshString]];
     self.awesomeToolbar.delegate = self;
     
@@ -66,6 +66,10 @@
     self.textField.frame = CGRectMake(0, 0, width, itemHeight);
     self.webView.frame = CGRectMake(0, CGRectGetMaxY(self.textField.frame), width, browserHeight);
     
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     self.awesomeToolbar.frame = CGRectMake(20, 100, 280, 60);
 }
 
@@ -79,7 +83,7 @@
     // Do any additional setup after loading the view, typically from a nib.
 }
 
- #pragma mark - UITextFieldDelegate
+#pragma mark - UITextFieldDelegate
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
@@ -141,7 +145,7 @@
     [self.view addSubview:newWebView];
     
     self.webView = newWebView;
-        
+    
     self.textField.text = nil;
     [self updateButtonsAndTitle];
 }
@@ -161,7 +165,7 @@
     } else {
         [self.activityIndicator stopAnimating];
     }
-
+    
     [self.awesomeToolbar setEnabled:[self.webView canGoBack] forButtonWithTitle:kWebBrowserBackString];
     [self.awesomeToolbar setEnabled:[self.webView canGoForward] forButtonWithTitle:kWebBrowserForwardString];
     [self.awesomeToolbar setEnabled:[self.webView isLoading] forButtonWithTitle:kWebBrowserStopString];
@@ -193,17 +197,14 @@
 }
 
 -(void) floatingToolbar:(AwesomeFloatingToolbar *)toolbar didPinchWithScale:(CGFloat)scale{
-    NSLog(@"Scale is ------  %f",scale);
     
     CGPoint startingPoint = toolbar.frame.origin;
     CGPoint newPoint = CGPointMake(startingPoint.x, startingPoint.y);
     
-    CGRect potentialNewFrame = CGRectMake(newPoint.x, newPoint.y, CGRectGetWidth(toolbar.frame) / scale, CGRectGetHeight(toolbar.frame) / scale);
+    CGRect potentialNewFrame = CGRectMake(newPoint.x, newPoint.y, CGRectGetWidth(toolbar.frame) * scale, CGRectGetHeight(toolbar.frame) * scale);
     
-    NSLog(@"New height, %f", CGRectGetHeight(toolbar.frame) / scale);
     if (CGRectContainsRect(self.view.bounds, potentialNewFrame)) {
         toolbar.frame = potentialNewFrame;
-        NSLog(@"Frame updated");
     }
 }
 
