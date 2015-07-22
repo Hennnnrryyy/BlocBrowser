@@ -208,4 +208,24 @@
     }
 }
 
+- (void) floatingToolbar:(AwesomeFloatingToolbar *)toolbar didLongPress:(NSString *)title{
+    UIColor *color0, *color1, *color2, *color3;
+    
+    color0 = [toolbar.colors[0] copy];
+    color1 = [toolbar.colors[1] copy];
+    color2 = [toolbar.colors[2] copy];
+    color3 = [toolbar.colors[3] copy];
+    
+    toolbar.colors[0] = color3;
+    toolbar.colors[1] = color0;
+    toolbar.colors[2] = color1;
+    toolbar.colors[3] = color2;
+    
+    toolbar.resetColors;
+    NSLog(@"Colors reset");
+    
+    
+}
+
+
 @end

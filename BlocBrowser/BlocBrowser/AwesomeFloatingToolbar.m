@@ -11,12 +11,11 @@
 @interface AwesomeFloatingToolbar ()
 
 @property (nonatomic, strong) NSArray *currentTitles;
-@property (nonatomic, strong) NSArray *colors;
-@property (nonatomic, strong) NSArray *labels;
 @property (nonatomic, weak) UILabel *currentLabel;
 @property (nonatomic, strong) UITapGestureRecognizer *tapGesture;
 @property (nonatomic, strong) UIPanGestureRecognizer *panGesture;
 @property (nonatomic, strong) UIPinchGestureRecognizer *pinchGesture;
+@property (nonatomic, strong) UILongPressGestureRecognizer *longPressGesture;
 
 
 @end
@@ -32,10 +31,10 @@
         
         // Save the titles, and set the 4 colors
         self.currentTitles = titles;
-        self.colors = @[[UIColor colorWithRed:199/255.0 green:158/255.0 blue:203/255.0 alpha:1],
+        self.colors = [@[[UIColor colorWithRed:199/255.0 green:158/255.0 blue:203/255.0 alpha:1],
                         [UIColor colorWithRed:255/255.0 green:105/255.0 blue:97/255.0 alpha:1],
                         [UIColor colorWithRed:222/255.0 green:165/255.0 blue:164/255.0 alpha:1],
-                        [UIColor colorWithRed:255/255.0 green:179/255.0 blue:71/255.0 alpha:1]];
+                        [UIColor colorWithRed:255/255.0 green:179/255.0 blue:71/255.0 alpha:1]] mutableCopy];
         
         NSMutableArray *labelsArray = [[NSMutableArray alloc] init];
         
@@ -74,7 +73,10 @@
         
         self.pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector((pinchFired:))];
         [self addGestureRecognizer:self.pinchGesture];
-                                                                                                
+        
+        self.longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector((longPressFired:))];
+        [self addGestureRecognizer:self.longPressGesture];
+        
     }
     
     return self;
@@ -165,6 +167,17 @@
     }
 }
 
+- (void) longPressFired:(UILongPressGestureRecognizer *)recognizer {
+    if(recognizer.state == UIGestureRecognizerStateEnded && [self.delegate respondsToSelector:@selector(floatingToolbar:didPinchWithScale:)]) {
+        [self.delegate floatingToolbar:self didLongPress: @""];
+    }
+}
+
+- (void) resetColors{
+    for(UIColor *color in self.colors){
+        ((UILabel *) self.labels[[self.colors indexOfObject:color]]).backgroundColor = color;
+    }
+}
 #pragma mark - Button Enabling
 
 - (void) setEnabled:(BOOL)enabled forButtonWithTitle:(NSString *)title {
