@@ -18,6 +18,8 @@
 - (void) floatingToolbar:(AwesomeFloatingToolbar *)toolbar didTryToPanWithOffset:(CGPoint)offset;
 - (void) floatingToolbar:(AwesomeFloatingToolbar *)toolbar didPinchWithScale:(CGFloat)scale;
 - (void) floatingToolbar:(AwesomeFloatingToolbar *)toolbar didLongPress:(NSString *)title;
+- (void) floatingToolbar:(AwesomeFloatingToolbar *)toolbar didPress:(NSString *)title;
+
 
 
 @end
@@ -31,7 +33,7 @@
 
 @property (nonatomic, weak) id <AwesomeFloatingToolbarDelegate> delegate;
 @property (nonatomic, strong) NSMutableArray *colors;
-@property (nonatomic, strong) NSMutableArray *labels;
+@property (nonatomic, strong) NSMutableArray *buttons;
 
 
 @end
